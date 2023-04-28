@@ -6,12 +6,16 @@ const app = express()
 const expressLayouts = require('express-ejs-layouts')
 const indexRouter = require('./routes/index')
 const authorRouter = require('./routes/authors')
-// const bodyParser = require('body-parser')
+const bookRouter = require('./routes/books')
+// const methodOverride = require('method-override')
+
+const bodyParser = require('body-parser')
  
 app.set('view engine', 'ejs')
 app.set('views', __dirname + '/views')
 app.set('layout','layouts/layout')
 app.use(expressLayouts)
+// app.use(methodOverride('_method'))
 app.use(express.static('public'))
 app.use(express.urlencoded({limit: '10mb', extended: false}))
 const mongoose = require('mongoose')
@@ -24,6 +28,7 @@ db.once('open', () => console.log('connected to mongoose db'))
 
 app.use('/', indexRouter)
 app.use('/authors', authorRouter)
+app.use('/books', bookRouter)
  
 app.listen(process.env.PORT || 3000, () => { 
     console.log(`Server running on Port: ${process.env.PORT}`) 
